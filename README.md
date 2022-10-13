@@ -1,7 +1,7 @@
 # Magic Notes
 
 This project was forked from [ShubhamKrSingh21/Magic-Notes](https://github.com/ShubhamKrSingh21/Magic-Notes) at commit
-51bc638191ac5250277cf4872d8620b65b75c56e. All commit history before this point was removed due to spam in the original
+`51bc638191ac5250277cf4872d8620b65b75c56e`. All commit history before this point was removed due to spam in the original
 repository.
 
 ## Preview
