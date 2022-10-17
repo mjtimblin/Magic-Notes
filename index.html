@@ -31,7 +31,7 @@
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <input id="searchTxt" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <input id="txt-search" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 </div>
             </div>
         </div>
@@ -40,16 +40,16 @@
     <div class="container">
         <form class="row mt-3">
             <div class="mb-3">
-                <label for="inpTitle">Title</label>
-                <input class="form-control" id="inpTitle" placeholder="Title" aria-label="Title">
+                <label for="input-new-note-title">Title</label>
+                <input id="input-new-note-title" class="form-control" placeholder="Title" aria-label="Title">
             </div>
             <div class="mb-3">
-                <label for="txtContent">Note content</label>
-                <textarea class="form-control" id="txtContent" placeholder="Note content" rows="3"></textarea>
+                <label for="txt-new-note-content">Note content</label>
+                <textarea id="txt-new-note-content" class="form-control" placeholder="Note content" rows="3"></textarea>
             </div>
             <div class="mb-3">
-                <label for="selectorColor">Note Color</label>
-                <select id="selectorColor" class="form-select">
+                <label for="selector-new-note-color">Note Color</label>
+                <select id="selector-new-note-color" class="form-select">
                     <option value="#FFFFFF" selected>White</option>
                     <option value="#E0E0E0">Gray</option>
                     <option value="#26C6DA">Cyan</option>
@@ -65,7 +65,7 @@
                 </select>
             </div>
             <div class="mb-3">
-                <button style="margin: 10px 0" class="btn btn-primary" id="addBtn" disabled>Add note</button>
+                <button id="btn-add-note" class="btn btn-primary" style="margin: 10px 0" disabled>Add note</button>
             </div>
         </form>
 
@@ -77,7 +77,7 @@
                     <button id="btn-delete-all-notes" class="btn btn-primary hidden" style="margin: 10px 0">Delete all notes</button>
                 </div>
                 <div class="mb-3">
-                    <div id="notes" class="row container-fluid"></div>
+                    <div id="notes-container" class="row container-fluid"></div>
                 </div>
             </div>
         </div>
@@ -85,5 +85,4 @@
         <script src="js/app.js"></script>
     </div>
 </body>
-
 </html>
