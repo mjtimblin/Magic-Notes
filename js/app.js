@@ -84,10 +84,10 @@ function updateDisplayedNotes() {
         const notesHtml = matchedNotes.map( (note) => {
             return `
                 <div class="noteCard my-2 mx-2 card" style="width: 18rem; box-shadow: 0 0 10px #333; background-color: ${note.color};">
+                    <a id="${note.uuid}" class="delete-note-link" onclick="deleteNote(this.id)">X</a>
                     <div class="card-body">
                         <h5 class="card-title">${note.title}</h5>
                         <p class="card-text"> ${note.content}</p>
-                        <button id="${note.uuid}"onclick="deleteNote(this.id)" class="btn btn-primary">Delete Note</button>
                     </div>
                 </div>`;
         });
