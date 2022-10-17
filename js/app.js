@@ -78,6 +78,7 @@ function handleDeleteNoteLinkClick(ele) {
     const uuid = ele.getAttribute('data-note-uuid');
     if (confirm("Are you sure you want to delete this note?")) {
         deleteNote(uuid);
+        updateDeleteAllNotesButtonVisibility();
     }
 }
 
@@ -107,6 +108,17 @@ function updateDisplayedNotes() {
     }
 }
 
+/**
+ * This function shows or hides the "Delete all notes" button based on the notes state
+ */
+function updateDeleteAllNotesButtonVisibility() {
+    if (getNotes().length === 0) {
+        document.getElementById("btn-delete-all-notes").classList.add("hidden");
+    } else {
+        document.getElementById("btn-delete-all-notes").classList.remove("hidden");
+    }
+}
+
 // Enables/disables the add button when the input field is updated
 document.getElementById("txtContent").addEventListener("input", (e) => {
     const trimmedInputText = e.target.value.trim();
@@ -123,6 +135,7 @@ document.getElementById("addBtn").addEventListener("click", (e) => {
     saveNewNote(note);
     document.getElementById("txtContent").value = "";
     updateDisplayedNotes();
+    updateDeleteAllNotesButtonVisibility();
 });
 
 // Updates the visible notes when the search field is updated
@@ -135,10 +148,12 @@ document.getElementById("searchTxt").addEventListener("input", () => {
  * Confirms with a prompt that requires to enter the word delete 
  * If failed, alerts with the error message.
  */
-document.getElementById('delAllBtn').addEventListener('click', () => {
+document.getElementById('btn-delete-all-notes').addEventListener('click', () => {
     if (confirm("Are you sure you want to delete all your notes?")) {
-        return deleteAllNotes();
+        deleteAllNotes();
+        updateDeleteAllNotesButtonVisibility();
     }
 });
 
 updateDisplayedNotes();  // Initialize with saved notes
+updateDeleteAllNotesButtonVisibility();

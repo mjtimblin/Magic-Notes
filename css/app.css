@@ -1,3 +1,7 @@
+.hidden {
+    display: none;
+}
+
 .delete-note-link {
     position: absolute;
     top: 10px;
