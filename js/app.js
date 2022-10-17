@@ -1,6 +1,12 @@
 const NOTES_LOCAL_STORAGE_KEY = "notes";
 
 class Note {
+    /**
+     * Constructor for Note
+     * @param {string} title - The title of the note.
+     * @param {string} content - The body of the note.
+     * @param {string} color - The color of the note. Accepts any values used by the CSS background-color property.
+     */
     constructor(title="", content = "", color = "white") {
         this.uuid = crypto.randomUUID();
         this.title = title;
@@ -78,6 +84,7 @@ function handleDeleteNoteLinkClick(ele) {
     const uuid = ele.getAttribute('data-note-uuid');
     if (confirm("Are you sure you want to delete this note?")) {
         deleteNote(uuid);
+        updateDeleteAllNotesButtonVisibility();
     }
 }
 
@@ -85,8 +92,8 @@ function handleDeleteNoteLinkClick(ele) {
  * This function displays the notes (filtered by search text) on the page
  */
 function updateDisplayedNotes() {
-    const searchText = document.getElementById("searchTxt").value;
-    const notesContainerEle = document.getElementById("notes");
+    const searchText = document.getElementById("txt-search").value;
+    const notesContainerEle = document.getElementById("notes-container");
     const notes = getNotes();
     const matchedNotes = notes.filter((note) => note.title.includes(searchText.toLowerCase()) || note.content.includes(searchText.toLowerCase()));
 
@@ -107,26 +114,44 @@ function updateDisplayedNotes() {
     }
 }
 
-// Enables/disables the add button when the input field is updated
-document.getElementById("txtContent").addEventListener("input", (e) => {
+/**
+ * This function shows or hides the "Delete all notes" button based on the notes state
+ */
+function updateDeleteAllNotesButtonVisibility() {
+    if (getNotes().length === 0) {
+        document.getElementById("btn-delete-all-notes").classList.add("hidden");
+    } else {
+        document.getElementById("btn-delete-all-notes").classList.remove("hidden");
+    }
+}
+
+/**
+ * Enables/disables the add button when the input field is updated
+ */
+document.getElementById("txt-new-note-content").addEventListener("input", (e) => {
     const trimmedInputText = e.target.value.trim();
-    document.getElementById("addBtn").disabled = trimmedInputText.length === 0;
+    document.getElementById("btn-add-note").disabled = trimmedInputText.length === 0;
 });
 
-// Adds a new note when the add button is clicked
-document.getElementById("addBtn").addEventListener("click", (e) => {
+/**
+ * Adds a new note when the add button is clicked
+ */
+document.getElementById("btn-add-note").addEventListener("click", (e) => {
     e.target.disabled = true;
-    const title = document.getElementById("inpTitle").value.trim() || "Untitled";
-    const content = document.getElementById("txtContent").value;
-    const color = document.getElementById("selectorColor").value;
+    const title = document.getElementById("input-new-note-title").value.trim() || "Untitled";
+    const content = document.getElementById("txt-new-note-content").value;
+    const color = document.getElementById("selector-new-note-color").value;
     const note = new Note(title, content, color);
     saveNewNote(note);
-    document.getElementById("txtContent").value = "";
+    document.getElementById("txt-new-note-content").value = "";
     updateDisplayedNotes();
+    updateDeleteAllNotesButtonVisibility();
 });
 
-// Updates the visible notes when the search field is updated
-document.getElementById("searchTxt").addEventListener("input", () => {
+/**
+ * Updates the visible notes when the search field is updated
+  */
+document.getElementById("txt-search").addEventListener("input", () => {
     updateDisplayedNotes();
 });
 
@@ -135,10 +160,12 @@ document.getElementById("searchTxt").addEventListener("input", () => {
  * Confirms with a prompt that requires to enter the word delete 
  * If failed, alerts with the error message.
  */
-document.getElementById('delAllBtn').addEventListener('click', () => {
+document.getElementById('btn-delete-all-notes').addEventListener('click', () => {
     if (confirm("Are you sure you want to delete all your notes?")) {
-        return deleteAllNotes();
+        deleteAllNotes();
+        updateDeleteAllNotesButtonVisibility();
     }
 });
 
 updateDisplayedNotes();  // Initialize with saved notes
+updateDeleteAllNotesButtonVisibility();
