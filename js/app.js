@@ -62,11 +62,23 @@ function deleteNote(uuid) {
 }
 
 /**
- * This function delete all notes from the page.
+ * This function deletes all stored notes.
  */
 function deleteAllNotes() {
     saveNotes([]);
     updateDisplayedNotes();
+}
+
+/**
+ * This function handles the click action on the delete note link. After confirming with the user, the delete note
+ * function is called with the uuid of the node.
+ * @param {Element} ele - The delete note link element that was clicked.
+ */
+function handleDeleteNoteLinkClick(ele) {
+    const uuid = ele.getAttribute('data-note-uuid');
+    if (confirm("Are you sure you want to delete this note?")) {
+        deleteNote(uuid);
+    }
 }
 
 /**
@@ -84,7 +96,7 @@ function updateDisplayedNotes() {
         const notesHtml = matchedNotes.map( (note) => {
             return `
                 <div class="noteCard my-2 mx-2 card" style="width: 18rem; box-shadow: 0 0 10px #333; background-color: ${note.color};">
-                    <a id="${note.uuid}" class="delete-note-link" onclick="deleteNote(this.id)">X</a>
+                    <a class="delete-note-link" data-note-uuid="${note.uuid}" onclick="handleDeleteNoteLinkClick(this)">X</a>
                     <div class="card-body">
                         <h5 class="card-title">${note.title}</h5>
                         <p class="card-text"> ${note.content}</p>
@@ -124,11 +136,9 @@ document.getElementById("searchTxt").addEventListener("input", () => {
  * If failed, alerts with the error message.
  */
 document.getElementById('delAllBtn').addEventListener('click', () => {
-    const isDelete = prompt("Alert! You are about to remove all your notes. Type in \"delete\" to confirm.") === 'delete';
-    if(isDelete) return deleteAllNotes();
-
-    alert("Couldn't proceed. WARNING: case-sensitive");
+    if (confirm("Are you sure you want to delete all your notes?")) {
+        return deleteAllNotes();
+    }
 });
 
-console.log("Welcome to notes app. This is app.js");
 updateDisplayedNotes();  // Initialize with saved notes
